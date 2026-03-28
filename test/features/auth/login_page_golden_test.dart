@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:my_schedule/src/core/design_system/design_system.dart';
 import 'package:my_schedule/src/features/auth/data/repositories/in_memory_auth_repository.dart';
 import 'package:my_schedule/src/features/auth/domain/entities/user.dart';
 import 'package:my_schedule/src/features/auth/domain/entities/user_role.dart';
@@ -21,10 +22,7 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-          useMaterial3: true,
-        ),
+        theme: AppTheme.light(),
         home: LoginPage(controller: controller),
       ),
     );
@@ -52,7 +50,9 @@ void main() {
     await setSurfaceSize(tester);
     await pumpLogin(tester, InMemoryAuthRepository());
 
-    await tester.tap(find.text('Não tem conta? Cadastre-se'));
+    await tester.tap(
+      find.widgetWithText(TextButton, 'No account yet? Sign up'),
+    );
     await tester.pumpAndSettle();
 
     await expectLater(
@@ -79,7 +79,9 @@ void main() {
     await setSurfaceSize(tester);
     await pumpLogin(tester, InMemoryAuthRepository());
 
-    await tester.tap(find.text('Não tem conta? Cadastre-se'));
+    await tester.tap(
+      find.widgetWithText(TextButton, 'No account yet? Sign up'),
+    );
     await tester.pumpAndSettle();
 
     await tester.tap(find.byType(DropdownButtonFormField<UserRole>));
@@ -97,7 +99,7 @@ void main() {
 
     await tester.enterText(find.byType(TextField).at(0), 'admin@demo.com');
     await tester.enterText(find.byType(TextField).at(1), 'wrong');
-    await tester.tap(find.text('Entrar'));
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Sign in'));
     await tester.pumpAndSettle();
 
     await expectLater(
@@ -112,7 +114,7 @@ void main() {
 
     await tester.enterText(find.byType(TextField).at(0), 'user@demo.com');
     await tester.enterText(find.byType(TextField).at(1), 'user');
-    await tester.tap(find.text('Entrar'));
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Sign in'));
     await tester.pump();
 
     await expectLater(
@@ -134,7 +136,7 @@ class DelayedAuthRepository implements AuthRepository {
   Future<User> login({required String email, required String password}) async {
     await Future<void>.delayed(delay);
     if (password != 'user') {
-      throw const AuthFailure('Senha inválida');
+      throw const AuthFailure('Invalid password');
     }
     return User(email: email, role: UserRole.user);
   }

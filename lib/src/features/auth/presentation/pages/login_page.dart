@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_schedule/src/core/design_system/design_system.dart';
 import 'package:my_schedule/src/features/auth/domain/entities/user.dart';
 import 'package:my_schedule/src/features/auth/domain/entities/user_role.dart';
 import 'package:my_schedule/src/features/auth/presentation/controllers/auth_controller.dart';
@@ -35,10 +36,10 @@ class _LoginPageState extends State<LoginPage> {
         final errorMessage = widget.controller.errorMessage;
 
         return Scaffold(
-          appBar: AppBar(title: Text(isRegister ? 'Cadastro' : 'Login')),
+          appBar: AppBar(title: Text(isRegister ? 'Sign up' : 'Sign in')),
           body: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 420),
                 child: Column(
@@ -49,18 +50,18 @@ class _LoginPageState extends State<LoginPage> {
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(labelText: 'Email'),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: AppSpacing.sm),
                     TextField(
                       controller: _passwordController,
                       obscureText: true,
-                      decoration: const InputDecoration(labelText: 'Senha'),
+                      decoration: const InputDecoration(labelText: 'Password'),
                     ),
                     if (isRegister) ...[
-                      const SizedBox(height: 12),
+                      const SizedBox(height: AppSpacing.sm),
                       DropdownButtonFormField<UserRole>(
                         key: ValueKey(widget.controller.selectedRole),
                         initialValue: widget.controller.selectedRole,
-                        decoration: const InputDecoration(labelText: 'Perfil'),
+                        decoration: const InputDecoration(labelText: 'Role'),
                         items: UserRole.values
                             .map(
                               (role) => DropdownMenuItem(
@@ -78,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                       ),
                     ],
-                    const SizedBox(height: 20),
+                    const SizedBox(height: AppSpacing.lg),
                     if (errorMessage != null) ...[
                       Text(
                         errorMessage,
@@ -86,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                           color: Theme.of(context).colorScheme.error,
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: AppSpacing.sm),
                     ],
                     ElevatedButton(
                       onPressed: isLoading
@@ -98,22 +99,22 @@ class _LoginPageState extends State<LoginPage> {
                               width: 20,
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
-                          : Text(isRegister ? 'Cadastrar' : 'Entrar'),
+                          : Text(isRegister ? 'Sign up' : 'Sign in'),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: AppSpacing.sm),
                     TextButton(
                       onPressed: isLoading
                           ? null
                           : widget.controller.toggleMode,
                       child: Text(
                         isRegister
-                            ? 'Já tem conta? Entrar'
-                            : 'Não tem conta? Cadastre-se',
+                            ? 'Already have an account? Sign in'
+                            : 'No account yet? Sign up',
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.md),
                     const Text(
-                      'Contas demo: admin@demo.com / admin, user@demo.com / user',
+                      'Demo accounts: admin@demo.com / admin, user@demo.com / user',
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -131,9 +132,9 @@ class _LoginPageState extends State<LoginPage> {
     final password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Informe email e senha.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Enter email and password.')),
+      );
       return;
     }
 
