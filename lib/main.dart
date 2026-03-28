@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_schedule/src/core/design_system/design_system.dart';
 import 'package:my_schedule/src/features/auth/data/repositories/in_memory_auth_repository.dart';
 import 'package:my_schedule/src/features/auth/domain/usecases/login_use_case.dart';
 import 'package:my_schedule/src/features/auth/domain/usecases/register_use_case.dart';
@@ -24,10 +25,7 @@ class MainApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'My Schedule',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.light(),
       home: LoginPage(controller: controller),
     );
   }

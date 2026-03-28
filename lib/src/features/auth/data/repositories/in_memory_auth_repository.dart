@@ -13,10 +13,10 @@ class InMemoryAuthRepository implements AuthRepository {
   Future<User> login({required String email, required String password}) async {
     final record = _users[email.toLowerCase()];
     if (record == null) {
-      throw const AuthFailure('Usuário não encontrado');
+      throw const AuthFailure('User not found');
     }
     if (record.password != password) {
-      throw const AuthFailure('Senha inválida');
+      throw const AuthFailure('Invalid password');
     }
     return User(email: record.email, role: record.role);
   }
@@ -29,7 +29,7 @@ class InMemoryAuthRepository implements AuthRepository {
   }) async {
     final key = email.toLowerCase();
     if (_users.containsKey(key)) {
-      throw const AuthFailure('Usuário já existe');
+      throw const AuthFailure('User already exists');
     }
     final record = AuthUserRecord(email: email, password: password, role: role);
     _users[key] = record;
