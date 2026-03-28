@@ -23,19 +23,33 @@ void main() {
   testWidgets('shows login form by default', (tester) async {
     await pumpLogin(tester);
 
-    expect(find.text('Login'), findsOneWidget);
-    expect(find.text('Cadastro'), findsNothing);
-    expect(find.text('Entrar'), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(AppBar),
+        matching: find.text('Sign in'),
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('Sign up'), findsNothing);
+    expect(find.widgetWithText(ElevatedButton, 'Sign in'), findsOneWidget);
   });
 
   testWidgets('toggle to register shows role dropdown', (tester) async {
     await pumpLogin(tester);
 
-    await tester.tap(find.text('Não tem conta? Cadastre-se'));
+    await tester.tap(
+      find.widgetWithText(TextButton, 'No account yet? Sign up'),
+    );
     await tester.pumpAndSettle();
 
-    expect(find.text('Cadastro'), findsOneWidget);
-    expect(find.text('Perfil'), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(AppBar),
+        matching: find.text('Sign up'),
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('Role'), findsOneWidget);
   });
 
   testWidgets('login as admin navigates to admin home', (tester) async {
@@ -43,10 +57,10 @@ void main() {
 
     await tester.enterText(find.byType(TextField).at(0), 'admin@demo.com');
     await tester.enterText(find.byType(TextField).at(1), 'admin');
-    await tester.tap(find.text('Entrar'));
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Sign in'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Bem-vindo, Admin'), findsOneWidget);
+    expect(find.text('Welcome, Admin'), findsOneWidget);
   });
 
   testWidgets('login as user navigates to user home', (tester) async {
@@ -54,10 +68,10 @@ void main() {
 
     await tester.enterText(find.byType(TextField).at(0), 'user@demo.com');
     await tester.enterText(find.byType(TextField).at(1), 'user');
-    await tester.tap(find.text('Entrar'));
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Sign in'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Bem-vindo, User'), findsOneWidget);
+    expect(find.text('Welcome, User'), findsOneWidget);
   });
 
   testWidgets('register creates new user and navigates to user home', (
@@ -65,7 +79,9 @@ void main() {
   ) async {
     await pumpLogin(tester);
 
-    await tester.tap(find.text('Não tem conta? Cadastre-se'));
+    await tester.tap(
+      find.widgetWithText(TextButton, 'No account yet? Sign up'),
+    );
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(TextField).at(0), 'new@demo.com');
@@ -76,10 +92,10 @@ void main() {
     await tester.tap(find.text('User').last);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Cadastrar'));
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Sign up'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Bem-vindo, User'), findsOneWidget);
+    expect(find.text('Welcome, User'), findsOneWidget);
   });
 
   testWidgets('invalid login shows error message', (tester) async {
@@ -87,9 +103,9 @@ void main() {
 
     await tester.enterText(find.byType(TextField).at(0), 'admin@demo.com');
     await tester.enterText(find.byType(TextField).at(1), 'wrong');
-    await tester.tap(find.text('Entrar'));
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Sign in'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Senha inválida'), findsOneWidget);
+    expect(find.text('Invalid password'), findsOneWidget);
   });
 }
