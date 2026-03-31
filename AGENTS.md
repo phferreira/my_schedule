@@ -13,6 +13,7 @@
 - Build the `presentation` layer last: state management, pages, and widgets.
 - Keep dependencies flowing inward: `presentation` -> `domain`, `data` -> `domain`, never the reverse.
 - Prefer interfaces/abstract classes in `domain`, concrete implementations in `data`.
+- After finishing a change, review it to ensure it follows this proposed flow.
 
 ## Build, Test, and Development Commands
 - `flutter pub get` installs dependencies.
@@ -37,6 +38,8 @@
 
 ## Commit & Pull Request Guidelines
 - Use Git with Conventional Commits (e.g., `feat: add settings screen`).
+- Make commits small and specific; avoid a single general commit covering multiple changes.
+- Use Git Flow for development: features must always branch off `develop`.
 - PRs should include a concise summary, testing notes (commands run), and screenshots for UI changes.
 - When a change is relevant to users or contributors, update `README.md` accordingly.
 
