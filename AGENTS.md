@@ -40,6 +40,7 @@
 - Use Git with Conventional Commits (e.g., `feat: add settings screen`).
 - Make commits small and specific; avoid a single general commit covering multiple changes.
 - Use Git Flow for development: features must always branch off `develop`.
+- Before starting any new feature, update your local `develop` from `origin/develop` to ensure you have the latest changes.
 - PRs should include a concise summary, testing notes (commands run), and screenshots for UI changes.
 - When a change is relevant to users or contributors, update `README.md` accordingly.
 
