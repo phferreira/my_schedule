@@ -24,10 +24,7 @@ void main() {
     await pumpLogin(tester);
 
     expect(
-      find.descendant(
-        of: find.byType(AppBar),
-        matching: find.text('Sign in'),
-      ),
+      find.descendant(of: find.byType(AppBar), matching: find.text('Sign in')),
       findsOneWidget,
     );
     expect(find.text('Sign up'), findsNothing);
@@ -43,10 +40,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.descendant(
-        of: find.byType(AppBar),
-        matching: find.text('Sign up'),
-      ),
+      find.descendant(of: find.byType(AppBar), matching: find.text('Sign up')),
       findsOneWidget,
     );
     expect(find.text('Role'), findsOneWidget);
